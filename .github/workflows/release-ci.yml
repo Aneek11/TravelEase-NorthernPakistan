@@ -1,9 +1,9 @@
-name: Develop CI
+name: Release CI
 
 on:
   push:
     branches:
-      - develop
+      - release
 
 jobs:
   build:
@@ -22,3 +22,6 @@ jobs:
 
       - name: Validate CSS
         run: npx stylelint "assets/css/**/*.css" || true
+
+      - name: Deploy to Staging
+        run: echo "Deployed to Staging Environment"
