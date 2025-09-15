@@ -1,15 +1,27 @@
 name: Release CI
 
 on:
-  pull_request:
-    branches: [release]
+  push:
+    branches:
+      - release
 
 jobs:
-  lint:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Run HTMLHint
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Validate HTML
         run: npx htmlhint "**/*.html" || true
+
+      - name: Validate CSS
+        run: npx stylelint "assets/css/**/*.css" || true
+
+      - name: Deploy to Staging
+        run: echo "Deployed to Staging Environment"

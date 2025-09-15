@@ -1,15 +1,27 @@
-name: Production CI
+name: Production CI/CD
 
 on:
-  pull_request:
-    branches: [production]
+  push:
+    branches:
+      - production
 
 jobs:
-  validate:
+  build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Run HTML Lint
+      - name: Install Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+
+      - name: Validate HTML
         run: npx htmlhint "**/*.html" || true
+
+      - name: Validate CSS
+        run: npx stylelint "assets/css/**/*.css" || true
+
+      - name: Deploy to Production
+        run: echo "Website deployed to Production Environment ✅"

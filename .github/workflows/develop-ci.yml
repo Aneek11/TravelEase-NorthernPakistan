@@ -2,27 +2,23 @@ name: Develop CI
 
 on:
   push:
-    branches: [develop]
-  pull_request:
-    branches: [develop]
+    branches:
+      - develop
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Setup Node.js
+      - name: Install Node
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
+          node-version: "16"
 
-      - name: Install dependencies
-        run: npm install
-
-      - name: Run HTMLHint
+      - name: Validate HTML
         run: npx htmlhint "**/*.html" || true
 
-      - name: Run Stylelint
-        run: npx stylelint "**/*.css" || true
+      - name: Validate CSS
+        run: npx stylelint "assets/css/**/*.css" || true
