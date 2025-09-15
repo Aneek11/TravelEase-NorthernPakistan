@@ -1,0 +1,15 @@
+name: Release CI
+
+on:
+  pull_request:
+    branches: [release]
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Run HTMLHint
+        run: npx htmlhint "**/*.html" || true
